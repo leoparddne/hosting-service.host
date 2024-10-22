@@ -1,36 +1,40 @@
-# HostingService.Host
+# HostingService. Host
 
-#### Description
-{**When you're done, you can delete the content in this README and update the file with details for others getting started with your repository**}
+####Introduction
+The main function is to keep the service active. When manually running this program or starting it through the service, it is necessary to ensure that the continuously running program is configured in the configuration file,
+Check whether the corresponding program is running correctly by detecting the process name.
 
-#### Software Architecture
-Software architecture description
+####Software Architecture
+Based on. net5
 
-#### Installation
+####Instructions for use
+The configuration example is as follows, which can invoke a normal program or configure the startup command of system services
+```
+"HostExe": {
+"Exe": [
+{
+"ExePath": "D:\\Program Files\\Notepad--\\Notepad--.exe",
+"Parameter": "",
+"ProcessName": "Notepad--.exe"
+},
+{
+"ExePath": "sc.exe",
+"Parameter": "start nginx",
+"ProcessName": "Test.WebAPI"
+},
+{
+"ExePath": "C:\\Temp\\hiprint\\hiprint.exe",
+"Parameter": "",
+"ProcessName": "hiprint.exe"
+}
+]
+}
+```
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
 
-#### Instructions
+####Participate and contribute
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Contribution
-
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
-
-
-#### Gitee Feature
-
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+1. Fork's own warehouse
+2. Create a new Feat_xxx branch
+3. Submit code
+4. Create a new Pull Request
