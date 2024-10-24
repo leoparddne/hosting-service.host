@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace HostingService
 {
@@ -12,6 +8,11 @@ namespace HostingService
         public string Parameter { get; set; }
 
         public string ProcessName { get; set; }
+
+        /// <summary>
+        /// 是否需要绕过UAC - 服务启动时，如果需要启动GUI，则需要设置此项为true - windows系统有效
+        /// </summary>
+        public bool NeedBypassUAC { get; set; }
     }
 
     public class HostInfo

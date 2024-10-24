@@ -6,12 +6,15 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using WindowsService1.Web.Server.Api;
+
 
 namespace HostingService
 {
     public class HostingExeJob : BackgroundService
     {
         private readonly ILogger<HostingExeJob> _logger;
+
 
         public HostingExeJob(ILogger<HostingExeJob> logger)
         {
@@ -37,7 +40,7 @@ namespace HostingService
 
         public void KeepAlive()
         {
-            if (HostInfoSingleTon.Instance.Exe == null || HostInfoSingleTon.Instance.Exe.Count == 0)
+            if (HostInfoSingleTon.Instance.Exe == null || HostInfoSingleTon.Instance.Exe.Count <= 0)
             {
                 return;
             }
@@ -70,18 +73,28 @@ namespace HostingService
             {
                 return;
             }
-            Process process = new Process();
-            process.StartInfo = new ProcessStartInfo
-            {
-                FileName = item.ExePath,
-            };
-            if (!string.IsNullOrEmpty(item.Parameter))
-            {
-                process.StartInfo.Arguments = item.Parameter;
-            }
-            process.Start();
 
-            _logger.LogError($"start {item}.");
+
+            if (item.NeedBypassUAC)
+            {
+                UserProcess.PROCESS_INFORMATION pInfo = new UserProcess.PROCESS_INFORMATION();
+                UserProcess.StartProcessAndBypassUAC(item.ExePath, string.Empty, out pInfo);
+            }
+            else
+            {
+                Process process = new Process();
+                process.StartInfo = new ProcessStartInfo
+                {
+                    FileName = item.ExePath,
+                };
+                if (!string.IsNullOrEmpty(item.Parameter))
+                {
+                    process.StartInfo.Arguments = item.Parameter;
+                }
+                process.Start();
+            }
+
+            _logger.LogInformation($"start {item}.");
         }
     }
 }
