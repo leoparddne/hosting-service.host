@@ -2,7 +2,8 @@
 
 #### 介绍
 主要功能为服务保活,手动运行此程序或通过服务启动,需要保证持续运行的程序配置在配置文件中,
-通过检测进程名称检测对应的程序是否正确运行。支持跳过GAC - 服务模式下启动桌面程序。
+通过检测进程名称检测对应的程序是否正确运行。  
+支持跳过GAC - 服务模式下启动桌面程序，使用此模式只有在服务启动时才能生效(如果在非服务启动模式下使用了"NeedBypassUAC": true则不会启动程序)。
 
 #### 软件架构
 基于.net5
@@ -11,25 +12,25 @@
 配置示例如下,可以唤起普通程序也可以配置系统服务的启动命令
 ```
 "HostExe": {
-    "Exe": [
-      {
+"Exe": [
+    {
         "ExePath": "D:\\Program Files\\Notepad--\\Notepad--.exe",
         "Parameter": "",
         "ProcessName": "Notepad--.exe"
-      },
-      {
+    },
+    {
         "ExePath": "sc.exe",
         "Parameter": "start nginx",
         "ProcessName": "Test.WebAPI"
-      },
-      {
+    },
+    {
         "ExePath": "C:\\Temp\\hiprint\\hiprint.exe",
         "Parameter": "",
-        "ProcessName": "hiprint.exe"
-      }
-    ]
-  }
-```
+        "ProcessName": "hiprint.exe",
+        "NeedBypassUAC": true
+    }
+]
+}
 
 
 #### 参与贡献
