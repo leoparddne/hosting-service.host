@@ -2,7 +2,7 @@
 
 ####Introduction
 The main function is to keep the service active. When manually running this program or starting it through the service, it is necessary to ensure that the continuously running program is configured in the configuration file,
-Check whether the corresponding program is running correctly by detecting the process name.
+Check whether the corresponding program is running correctly by detecting the process name.Support starting desktop programs in skip GAC service mode.
 
 ####Software Architecture
 Based on. net5
