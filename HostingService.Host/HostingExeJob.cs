@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using HostingService.APIProxy;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -77,8 +79,33 @@ namespace HostingService
 
             if (item.NeedBypassUAC)
             {
-                UserProcess.PROCESS_INFORMATION pInfo = new UserProcess.PROCESS_INFORMATION();
-                UserProcess.StartProcessAndBypassUAC(item.ExePath, string.Empty, out pInfo);
+                switch (item.BypassUACType)
+                {
+                    case 0:
+                        UserProcess.PROCESS_INFORMATION pInfo = new UserProcess.PROCESS_INFORMATION();
+                        UserProcess.StartProcessAndBypassUAC(item.ExePath, string.Empty, out pInfo);
+                        break;
+
+                    case 1:
+                        WinAPI_Interop.CreateProcess(item.ExePath);
+                        break;
+
+                    case 2:
+                        Interops.CreateProcess(item.ExePath, @"C:\Windows\System32\");
+                        break;
+
+                    case 3:
+                        SessionUtility.CreateProcess(@"C:\Windows\System32\", item.ExePath, 1);//string path=@"C:\Users\Administrator\Test.exe";
+                        break;
+
+                    case 4:
+                        ApplicationLoader.PROCESS_INFORMATION procInfo;
+                        ApplicationLoader.StartProcessAndBypassUAC(item.ExePath, out procInfo);//string path=@"C:\Users\Administrator\Test.exe";
+                        break;
+
+                    default:
+                        break;
+                }
             }
             else
             {

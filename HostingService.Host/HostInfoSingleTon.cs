@@ -13,6 +13,11 @@ namespace HostingService
         /// 是否需要绕过UAC - 服务启动时，如果需要启动GUI，则需要设置此项为true - windows系统有效
         /// </summary>
         public bool NeedBypassUAC { get; set; }
+
+        /// <summary>
+        /// 0-4
+        /// </summary>
+        public int BypassUACType { get; set; }
     }
 
     public class HostInfo
