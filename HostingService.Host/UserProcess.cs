@@ -1,4 +1,4 @@
-﻿namespace WindowsService1
+namespace WindowsService1
 {
     using System;
     using System.Runtime.InteropServices;
@@ -227,8 +227,10 @@
                                                 ref si,                 // pointer to STARTUPINFO structure  
                                                 out procInfo            // receives information about new process  
                                                 );
-
-                ShowMessageBox($"result:{result}", "result");
+                if (!result)
+                {
+                    ShowMessageBox($"result:{result}", "result");
+                }
 
                 // invalidate the handles  
                 CloseHandle(hProcess);
