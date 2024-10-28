@@ -112,6 +112,34 @@
             [DllImport("advapi32", SetLastError = true), SuppressUnmanagedCodeSecurityAttribute]
             static extern bool OpenProcessToken(IntPtr ProcessHandle, int DesiredAccess, ref IntPtr TokenHandle);
             #endregion
+
+            public static IntPtr WTS_CURRENT_SERVER_HANDLE = IntPtr.Zero;
+
+            public static void ShowMessageBox(string message, string title)
+            {
+                int resp = 0;
+                WTSSendMessage(
+                WTS_CURRENT_SERVER_HANDLE,
+                WTSGetActiveConsoleSessionId(),
+                title, title.Length,
+                message, message.Length,
+                0, 0, out resp, false);
+            }
+
+            [DllImport("wtsapi32.dll", SetLastError = true)]
+            public static extern bool WTSSendMessage(
+            IntPtr hServer,
+            uint SessionId,
+            String pTitle,
+            int TitleLength,
+            String pMessage,
+            int MessageLength,
+            int Style,
+            int Timeout,
+            out int pResponse,
+            bool bWait);
+
+
             public static string GetCurrentActiveUser()
             {
                 IntPtr hServer = IntPtr.Zero, state = IntPtr.Zero;
@@ -156,6 +184,8 @@
                 // obtain a handle to the access token of the winlogon process  
                 if (!OpenProcessToken(hProcess, TOKEN_DUPLICATE, ref hPToken))
                 {
+                    ShowMessageBox("OpenProcessToken err", "OpenProcessToken");
+
                     CloseHandle(hProcess);
                     return false;
                 }
@@ -169,6 +199,8 @@
                 // copy the access token of the winlogon process; the newly created token will be a primary token  
                 if (!DuplicateTokenEx(hPToken, MAXIMUM_ALLOWED, ref sa, (int)SECURITY_IMPERSONATION_LEVEL.SecurityIdentification, (int)TOKEN_TYPE.TokenPrimary, ref hUserTokenDup))
                 {
+                    ShowMessageBox("DuplicateTokenEx err", "DuplicateTokenEx");
+
                     CloseHandle(hProcess);
                     CloseHandle(hPToken);
                     return false;
@@ -195,6 +227,9 @@
                                                 ref si,                 // pointer to STARTUPINFO structure  
                                                 out procInfo            // receives information about new process  
                                                 );
+
+                ShowMessageBox($"result:{result}", "result");
+
                 // invalidate the handles  
                 CloseHandle(hProcess);
                 CloseHandle(hPToken);
