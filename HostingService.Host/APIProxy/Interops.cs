@@ -10,7 +10,7 @@ namespace HostingService.APIProxy
 {
     public class Interops
     {
-        public static void CreateProcess(string app, string path)
+        public static void CreateProcess(string app)
         {
             bool result;
             IntPtr hToken = WindowsIdentity.GetCurrent().Token;

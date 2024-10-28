@@ -91,11 +91,11 @@ namespace HostingService
                         break;
 
                     case 2:
-                        Interops.CreateProcess(item.ExePath, @"C:\Windows\System32\");
+                        Interops.CreateProcess(item.ExePath);
                         break;
 
                     case 3:
-                        SessionUtility.CreateProcess(@"C:\Windows\System32\", item.ExePath, 1);//string path=@"C:\Users\Administrator\Test.exe";
+                        SessionUtility.CreateProcess(item.ExePath, "", 1);//string path=@"C:\Users\Administrator\Test.exe";
                         break;
 
                     case 4:
