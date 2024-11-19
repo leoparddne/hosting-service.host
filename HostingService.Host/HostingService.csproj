@@ -14,7 +14,11 @@
 	</ItemGroup>
 
 
+	
 	<ItemGroup>
+	  <None Update="Install.cmd">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="Uninstall.bat">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
